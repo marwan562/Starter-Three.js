@@ -6,15 +6,20 @@ const scene = new THREE.Scene();
 // texture loader
 const textureLoader = new THREE.TextureLoader();
 const colorMap = textureLoader.load("/static/textures/1/color.jpg");
-
+colorMap.repeat.x = 5;
+colorMap.repeat.y = 5;
+colorMap.wrapS = THREE.RepeatWrapping;
+colorMap.wrapT = THREE.RepeatWrapping;
+colorMap.center.x = 0.5;
+colorMap.center.y = 0.5;
 
 //axes helper line
 const axesHelper = new THREE.AxesHelper(5);
 scene.add(axesHelper);
 
 //cube mesh
-const cubeMaterial = new THREE.MeshBasicMaterial({ map: colorMap});
-const cubeGeometry = new THREE.BoxGeometry(4, 4, 4, 512, 512, 512);
+const cubeMaterial = new THREE.MeshBasicMaterial({ map: colorMap });
+const cubeGeometry = new THREE.BoxGeometry(4, 4, 4, 1, 1, 1);
 const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
 
 //! Sphere
@@ -43,22 +48,24 @@ const camera = new THREE.PerspectiveCamera(
   1000
 );
 
-camera.position.set(0, 0, 10);
+camera.position.set(5, 5, 10);
 scene.add(camera);
 
 //initialize the renderer here
 const canvas = document.querySelector("canvas.threejs");
-const renderer = new THREE.WebGLRenderer({ canvas});
+const renderer = new THREE.WebGLRenderer({ canvas });
 renderer.setSize(window.innerWidth, window.innerHeight);
 
 //initialize the orbit controls
 const orbitControl = new OrbitControls(camera, renderer.domElement);
+orbitControl.autoRotate = true
 
 //clock time for animations frams optmize with difference devices
 const clock = new THREE.Clock();
 
 function animatLoopFrame() {
   window.requestAnimationFrame(animatLoopFrame);
+  orbitControl.update()
   renderer.setSize(window.innerWidth, window.innerHeight);
 
   // elapsed time
