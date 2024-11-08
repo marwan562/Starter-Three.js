@@ -58,14 +58,14 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 
 //initialize the orbit controls
 const orbitControl = new OrbitControls(camera, renderer.domElement);
-orbitControl.autoRotate = true
+orbitControl.autoRotate = true;
 
 //clock time for animations frams optmize with difference devices
 const clock = new THREE.Clock();
 
 function animatLoopFrame() {
   window.requestAnimationFrame(animatLoopFrame);
-  orbitControl.update()
+  orbitControl.update();
   renderer.setSize(window.innerWidth, window.innerHeight);
 
   // elapsed time
