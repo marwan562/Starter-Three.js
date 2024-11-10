@@ -1,35 +1,55 @@
 import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/Addons.js";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
 const scene = new THREE.Scene();
+
+// **light**
+
+// ambient light
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+//point light
+const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+directionalLight.position.set(5, 5, 5);
+
+scene.add(directionalLight, ambientLight);
 
 // texture loader
 const textureLoader = new THREE.TextureLoader();
 const colorMap = textureLoader.load("/static/textures/1/color.jpg");
-colorMap.repeat.x = 5;
-colorMap.repeat.y = 5;
-colorMap.wrapS = THREE.RepeatWrapping;
-colorMap.wrapT = THREE.RepeatWrapping;
-colorMap.center.x = 0.5;
-colorMap.center.y = 0.5;
+const displacementMap = textureLoader.load("/static/textures/1/disp.png");
+const alphaMap = textureLoader.load("/static/textures/1/alpha.png");
+const normalMap = textureLoader.load("/static/textures/1/color.jpg");
+const maskMap = textureLoader.load("/static/textures/1/mask.jpg");
+const occMap = textureLoader.load("/static/textures/1/color.jpg");
+const gradientTexture = textureLoader.load("/static/textures/gradients/3.jpg");
+gradientTexture.minFilter = THREE.NearestFilter
+gradientTexture.magFilter = THREE.NearestFilter
+gradientTexture.generateMipmaps = false
 
 //axes helper line
 const axesHelper = new THREE.AxesHelper(5);
 scene.add(axesHelper);
 
 //cube mesh
-const cubeMaterial = new THREE.MeshBasicMaterial({ map: colorMap });
-const cubeGeometry = new THREE.BoxGeometry(4, 4, 4, 1, 1, 1);
+const cubeMaterial = new THREE.MeshToonMaterial({
+  gradientMap: gradientTexture,
+});
+const cubeGeometry = new THREE.BoxGeometry(4, 4, 4, 512, 512, 512);
 const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+//implement this for ambient occlustion
+// cube.geometry.setAttribute(
+//   "uv2",
+//   new THREE.BufferAttribute(cube.geometry.attributes.uv.array, 2)
+// );
 
 //! Sphere
-const sphereMaterial = new THREE.MeshBasicMaterial({ map: colorMap });
-const sphereGeometry = new THREE.SphereGeometry(2, 512, 512);
+const sphereMaterial = new THREE.MeshNormalMaterial({ flatShading: true });
+const sphereGeometry = new THREE.SphereGeometry(2);
 const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
 sphere.position.x = 10;
 
 //! turos
-const toursMaterial = new THREE.MeshBasicMaterial({ map: colorMap });
+const toursMaterial = new THREE.MeshNormalMaterial({});
 const toursGeometry = new THREE.TorusGeometry(2, 0.4, 512, 512);
 const tours = new THREE.Mesh(toursGeometry, toursMaterial);
 tours.position.x = -10;
@@ -73,16 +93,8 @@ function animatLoopFrame() {
 
   // simple animation
   cube.rotation.y = elapsedTime * 0.2;
-  cube.rotation.x = elapsedTime * 0.2;
-  cube.rotation.z = elapsedTime * 0.2;
-
   sphere.rotation.y = elapsedTime * 0.2;
-  sphere.rotation.x = elapsedTime * 0.2;
-  sphere.rotation.z = elapsedTime * 0.2;
-
   tours.rotation.y = elapsedTime * 0.2;
-  tours.rotation.x = elapsedTime * 0.2;
-  tours.rotation.z = elapsedTime * 0.2;
 
   renderer.render(scene, camera);
 }
