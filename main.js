@@ -22,7 +22,7 @@ scene.add(camera);
 
 //initialize the renderer here
 const canvas = document.querySelector("canvas.threejs");
-const renderer = new THREE.WebGLRenderer({ canvas });
+const renderer = new THREE.WebGLRenderer({ canvas ,antialias:true});
 renderer.setSize(window.innerWidth, window.innerHeight);
 
 
@@ -38,7 +38,7 @@ function animatLoopFrame  () {
   renderer.render(scene, camera);
 }
 
-// animatLoopFrame()
+animatLoopFrame()
 
 
 
