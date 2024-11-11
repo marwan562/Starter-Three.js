@@ -36,7 +36,7 @@ camera.position.z = 10;
 scene.add(camera);
 
 // Add the Text 3d here
-const textMaterial = new THREE.MeshMatcapMaterial({ matcap: matcapTexture });
+const matcapMaterial = new THREE.MeshMatcapMaterial({ matcap: matcapTexture });
 const fontLoader = new FontLoader();
 fontLoader.load("/static/fonts/helvetiker_regular.typeface.json", (font) => {
   const textGeometry = new TextGeometry("  Marwan Hassan\nCreative Develoepr", {
@@ -46,7 +46,7 @@ fontLoader.load("/static/fonts/helvetiker_regular.typeface.json", (font) => {
     curveSegments: 10,
   });
   textGeometry.center();
-  const textMesh = new THREE.Mesh(textGeometry, textMaterial);
+  const textMesh = new THREE.Mesh(textGeometry, matcapMaterial);
 
   scene.add(textMesh);
 });
@@ -57,10 +57,10 @@ const tetrahedronGeometry = new THREE.TetrahedronGeometry(1, 0);
 const group = new THREE.Group();
 
 for (let i = 0; i < 100; i++) {
-  const tetrahedronMesh = new THREE.Mesh(tetrahedronGeometry, textMaterial);
+  const tetrahedronMesh = new THREE.Mesh(tetrahedronGeometry, matcapMaterial);
   tetrahedronMesh.position.x = (Math.random() - 0.5) * 25;
   tetrahedronMesh.position.y = (Math.random() - 0.5) * 25;
-  tetrahedronMesh.position.z = (Math.random() - 0.5) * 15;
+  tetrahedronMesh.position.z = (Math.random() - 0.5) * 25;
 
   tetrahedronMesh.rotation.x = Math.random() * Math.PI;
   tetrahedronMesh.rotation.z = Math.random() * Math.PI;
