@@ -148,7 +148,15 @@ window.addEventListener("scroll", () => {
   const newSection = Math.round(scrollY / sizes.height);
   if (newSection != currentSection) {
     currentSection = newSection;
-    console.log(currentSection);
+
+    for (let i = 0; i < sectionsMeshes.length; i++) {
+      if (i !== newSection) {
+        sectionsMeshes[i].visible = false;
+      } else {
+        sectionsMeshes[i].visible = true;
+      }
+    }
+
     gsap.to(sectionsMeshes[currentSection].rotation, {
       duration: 3,
       ease: "power2.inOut",
