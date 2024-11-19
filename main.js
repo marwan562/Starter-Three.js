@@ -33,8 +33,8 @@ window.addEventListener("mousemove", (e) => {
   mouse.y = e.clientY / window.innerHeight - 0.5;
 
   if (model) {
-    model.rotation.y = mouse.x;
-    model.rotation.x= mouse.y;
+    model.rotation.y = (mouse.x * Math.PI) / 2;
+    model.rotation.x = (mouse.y * Math.PI) / 2;
   }
 });
 
