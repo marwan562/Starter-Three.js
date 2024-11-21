@@ -46,25 +46,12 @@ const orbitControl = new OrbitControls(camera, renderer.domElement);
  * Handle mouse move
  */
 let mouseMoved = false;
+let currentObject;
 
 function onMouseMove(event) {
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-  mouseMoved = true;
-}
-
-window.addEventListener("mousemove", onMouseMove);
-
-/**
- * Animate
- */
-const clock = new THREE.Clock();
-
-let currentObject;
-
-function animate() {
-  window.requestAnimationFrame(animate);
-
+  mouseMoved = true
   if (mouseMoved) {
     // Update the raycaster based on the mouse position and camera
     raycaster.setFromCamera(mouse, camera);
@@ -100,6 +87,17 @@ function animate() {
       document.body.style.cursor = "default";
     }
   }
+}
+
+window.addEventListener("mousemove", onMouseMove);
+
+/**
+ * Animate
+ */
+const clock = new THREE.Clock();
+
+function animate() {
+  window.requestAnimationFrame(animate);
 
   // Render the scene
   renderer.render(scene, camera);
