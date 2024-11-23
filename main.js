@@ -18,6 +18,7 @@ const mouse = new THREE.Vector2();
 /**
  * Camera
  */
+
 const camera = new THREE.PerspectiveCamera(
   75,
   window.innerWidth / window.innerHeight,
@@ -53,7 +54,8 @@ function onMouseMove(event) {
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
   mouseMoved = true
   if (mouseMoved) {
-    // Update the raycaster based on the mouse position and camera
+
+  // Update the raycaster based on the mouse position and camera
     raycaster.setFromCamera(mouse, camera);
 
     // Check for intersections with the cube
@@ -88,6 +90,13 @@ function onMouseMove(event) {
     }
   }
 }
+
+window.addEventListener("resize" , () => {
+  camera.aspect = window.innerWidth / window.innerHeight
+  camera.updateProjectionMatrix()
+  renderer.setPixelRatio(MAX_PIXEL_RATIO);
+  renderer.setSize(innerWidth ,innerHeight)
+})
 
 window.addEventListener("mousemove", onMouseMove);
 
