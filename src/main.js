@@ -1,32 +1,14 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js"; // Correct path for OrbitControls
+import vertexShader from "../public/shaders/vertex.glsl"
+import fragmentShader from "../public/shaders/fragment.glsl"
 
 const scene = new THREE.Scene();
-
-// Vertex Shader
-const vertexShader = `
-    void main() {
-        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-    }
-`;
-
-// Fragment Shader
-const fragmentShader = `
-    uniform float u_time; // Time uniform for animation
-
-    void main() {
-        gl_FragColor = vec4(abs(sin(u_time)), 0.0, 0.0, 1.0); // Animate the red component with time
-    }
-`;
 
 const cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
 const cubeMaterial = new THREE.ShaderMaterial({
   vertexShader,
   fragmentShader,
-  uniforms: {
-    u_time: { value: 5.0 }, // Initialize the time uniform
-
-  }
 });
 
 const cubeMesh = new THREE.Mesh(cubeGeometry, cubeMaterial);
@@ -53,9 +35,6 @@ orbitControl.enableDamping = true;
 
 // Animation loop to update the time uniform
 function animate() {
-  // Update the time uniform
-  cubeMaterial.uniforms.u_time.value = performance.now() * 0.001; // Convert to seconds
-
   // Update controls and render the scene
   orbitControl.update();
   renderer.render(scene, camera);
